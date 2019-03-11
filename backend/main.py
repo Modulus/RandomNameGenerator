@@ -22,7 +22,7 @@ def generate_element():
 
     # Replace spaces with - in animal name
     animal_name = animal_name.replace(" ", "-")
-    logger.msg(f"{adjective}{animal_name}")
+    logger.msg(f"Returning  {adjective} {animal_name}")
 
     return adjective.capitalize(), animal_name.capitalize()
 
