@@ -1,9 +1,9 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img, input, Attribute)
+import Html exposing (Html, text, div, h1, img, input, button, Attribute , table, thead, tbody, tr, td, th)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onInput, onClick)
 
 
 ---- MODEL ----
@@ -33,7 +33,8 @@ init =
 type Msg
     = NoOp
     | Change Model
-   -- | GetData String String
+    | Generate String String
+    | Reset
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -43,7 +44,10 @@ update msg model =
             ( model, Cmd.none )
         Change newModel ->
             ({ model | name = newModel.name, adjective = newModel.adjective }, Cmd.none)
-      --  GetData newName new            
+        Generate newName new  ->
+            ( { model | name = newName, adjective = new}, Cmd.none)         
+        Reset ->
+            ( { model | name = "", adjective = ""}, Cmd.none)
 
 
 
@@ -52,11 +56,18 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text (composeText model) ]
-        ]
+    div  [classList[("container", True)]][
+        h1 [][text "Generator"]
+    , div [class "row"][
+        text ( model.name ++ " " ++ model.adjective)
+    ]
+    ,div [ class "row" ][
+         button [ onClick (Generate "jada" "neida" ), type_ "button", classList[("btn", True), ("btn-primary", True)]] [text "Generate!"]
+         , button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True)] ] [text "Reset"]
 
+        ]
+    ]
+    
 
 
 ---- PROGRAM ----
