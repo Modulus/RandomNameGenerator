@@ -2,7 +2,7 @@ import pandas
 import structlog
 from flask import Flask, jsonify
 from time import gmtime, strftime
-from main import generate_element
+from main import generate_element, amount_combos
 
 logger = structlog.get_logger()
 
@@ -19,6 +19,14 @@ def generate():
     logger.msg(f"Name is: {name}, adjective is: {adjective}")
 
     response = f"{adjective.capitalize()} {name.capitalize()}"
+    return response
+
+@app.route("/stat")
+def stats():
+    logger.info("Returning amount of combos")
+    amount = amount_combos()
+
+    response = jsonify({"combos": f"{amount}"})
     return response
 
 
