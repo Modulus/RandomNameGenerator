@@ -15,4 +15,6 @@ COPY public/ /usr/share/nginx/html
 
 COPY --from=builder js/main.js /usr/share/nginx/html/js
 
+COPY --from=builder node_modules/bootstrap/dist /usr/share/nginx/html/node_modules/bootstrap/dist
+
 EXPOSE 80 443

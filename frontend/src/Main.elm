@@ -1,10 +1,12 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img, input, button, Attribute , table, thead, tbody, tr, td, th)
+import Html exposing (Html, text, div, h1, h5, img, input, button, Attribute , table, thead, tbody, tr, td, th, p)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
-
+import Http
+import Json.Decode exposing (Decoder, field, string, int, map2)
+import String exposing(isEmpty)
 
 ---- MODEL ----
 
@@ -13,7 +15,7 @@ type alias Model =
     {
         name: String
         , adjective: String
-        , timestamp: String
+       -- , timestamp: String
     }
 
 
@@ -21,9 +23,27 @@ composeText : Model -> String
 composeText model =
     model.name ++ " " ++ model.adjective
 
+fetchData : Cmd Msg
+fetchData = 
+    Http.get 
+    { url = "http://localhost:5000/json"
+     , expect  = Http.expectJson Update jsonDecoder
+    }
+
+        
+     
+jsonDecoder : Decoder Model
+jsonDecoder = 
+   map2 Model 
+    (field "adjective" string)
+    (field "name" string)
+   -- (field "timestamp" string)
+
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( Model "Generated name" "Generated adjective" "", Cmd.none )
+    ( Model "" "", Cmd.none )
 
 
 
@@ -32,8 +52,8 @@ init =
 
 type Msg
     = NoOp
-    | Change Model
-    | Generate String String
+    | Update (Result Http.Error Model)
+    | LoadData
     | Reset
 
 
@@ -42,10 +62,14 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
-        Change newModel ->
-            ({ model | name = newModel.name, adjective = newModel.adjective }, Cmd.none)
-        Generate newName new  ->
-            ( { model | name = newName, adjective = new}, Cmd.none)         
+        LoadData ->
+            ({ model | name = "Fetching", adjective = "Fetching..." }, fetchData)
+        Update result ->
+            case result of
+                Ok data ->
+                    ({model | name = data.name, adjective = data.adjective}, Cmd.none)
+                Err errorMsssage ->
+                    ({model | name ="Failed!"}, Cmd.none)
         Reset ->
             ( { model | name = "", adjective = ""}, Cmd.none)
 
@@ -57,15 +81,45 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div  [classList[("container", True)]][
-        h1 [][text "Generator"]
-    , div [class "row"][
-        text ( model.name ++ " " ++ model.adjective)
+    div [class "d-flex justify-content-center"][
+        h1 [][text "Name Generator"]
     ]
-    ,div [ class "row" ][
-         button [ onClick (Generate "jada" "neida" ), type_ "button", classList[("btn", True), ("btn-primary", True)]] [text "Generate!"]
-         , button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True)] ] [text "Reset"]
+    , div [class "d-flex justify-content-center"][
+        p [ class "maintext"][
+        text ( 
+            if (isEmpty model.name) || (isEmpty model.adjective) then
+                "Not found"
+            else 
+                model.name ++ " " ++ model.adjective
+                )
 
         ]
+
+    ]
+    , div [class "d-flex justify-content-center" ][
+        h5 [][text "Id text"]
+    ]
+    , div [class "d-flex justify-content-center"][
+            p [ ][
+            text ( 
+                if (isEmpty model.name) || (isEmpty model.adjective) then
+                    "Not found"
+                else 
+                    model.name ++ "-" ++ model.adjective
+                    )
+
+            ]
+    ]
+    ,div [ classList[("d-flex justify-content-center", True)] ][
+         button [ onClick (LoadData) , type_ "button", classList[("btn", True), ("btn-primary", True), ("btn-lg", True)]] [text "Generate!"]
+         
+         , button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True),  ("btn-lg", True)] ] [text "Reset"]
+
+        ]
+    , div [class "d-flex justify-content-center"][
+        p [class "subtext" ][ text "Generating names out of 165 784 possible cominations"]
+        ]
+    
     ]
     
 
