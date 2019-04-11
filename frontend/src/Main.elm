@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, h5, img, input, button, Attribute , table, thead, tbody, tr, td, th, p)
+import Html exposing (Html, text, div, h1, h5, img, input, button, Attribute , table, thead, tbody, tr, td, th, p, span)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
@@ -93,6 +93,11 @@ view model =
     div [class "d-flex justify-content-center"][
         h1 [][text "Name Generator"]
     ]
+    , div [ class "jumbotron"][
+        p [class "maintext"][ text "Snadder"]
+    ]
+
+
     , div [class "d-flex justify-content-center"][
         p [ class "maintext"][
         text ( 
@@ -109,7 +114,7 @@ view model =
         h5 [][text "Id text"]
     ]
     , div [class "d-flex justify-content-center"][
-            p [ ][
+            span [ classList[("badge", True), ("badge-light", True)]][ 
             text ( 
                 if (isEmpty model.name) || (isEmpty model.adjective) then
                     "Not found"
@@ -118,6 +123,8 @@ view model =
                     )
 
             ]
+
+
     ]
     ,div [ classList[("d-flex justify-content-center", True)] ][
          button [ onClick (LoadData) , type_ "button", classList[("btn", True), ("btn-primary", True), ("btn-lg", True)]] [text "Generate!"]
