@@ -18,6 +18,11 @@ type alias Model =
        -- , timestamp: String
     }
 
+-- type alias Config = 
+-- {
+--     url : String
+-- }
+
 
 composeText : Model -> String
 composeText model =
@@ -134,4 +139,4 @@ main =
         , init = \_ -> init
         , update = update
         , subscriptions = always Sub.none
-        }
+        } 

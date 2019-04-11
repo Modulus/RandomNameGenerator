@@ -2,7 +2,7 @@ FROM node:8.15-jessie as builder
 
 COPY . .
 
-RUN  mkdir -p /usr/local/lib/node_modules/create-elm-app/node_modules/elmi-to-json/unpacked_bin && npm install -g elm -unsafe-perm=true
+RUN  mkdir -p /usr/local/lib/node_modules/create-elm-app/node_modules/elmi-to-json/unpacked_bin && npm install -g elm -unsafe-perm=true && npm install bootstrap
 
 RUN elm make src/Main.elm --output js/main.js
 
