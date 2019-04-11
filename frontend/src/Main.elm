@@ -107,7 +107,7 @@ view model =
 
         ]
         , div [class "d-flex justify-content-center" ][
-            h5 [][text "Id"]
+            -- h5 [][text "Id"]
         ]
         , div [class "d-flex justify-content-center"][
             span [ classList[("badge", True), ("badge-dark", True)]][ 
