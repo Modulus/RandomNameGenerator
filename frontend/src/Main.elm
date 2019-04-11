@@ -91,47 +91,48 @@ view : Model -> Html Msg
 view model =
     div  [classList[("container", True)]][
     div [class "d-flex justify-content-center"][
-        h1 [][text "Name Generator"]
+        h1 [ class "header" ][text "Name Generator"]
     ]
     , div [ class "jumbotron"][
-        p [class "maintext"][ text "Snadder"]
-    ]
-
-
-    , div [class "d-flex justify-content-center"][
-        p [ class "maintext"][
-        text ( 
-            if (isEmpty model.name) || (isEmpty model.adjective) then
-                "Not found"
-            else 
-                String.Extra.toTitleCase (model.name ++ " " ++ model.adjective)
-                )
-
-        ]
-
-    ]
-    , div [class "d-flex justify-content-center" ][
-        h5 [][text "Id text"]
-    ]
-    , div [class "d-flex justify-content-center"][
-            span [ classList[("badge", True), ("badge-light", True)]][ 
+        div [class "d-flex justify-content-center"][
+            p [ class "maintext"][
             text ( 
                 if (isEmpty model.name) || (isEmpty model.adjective) then
-                    "Not found"
+                    "-"
+                else 
+                    String.Extra.toTitleCase (model.name ++ " " ++ model.adjective)
+                    )
+
+            ]
+
+        ]
+        , div [class "d-flex justify-content-center" ][
+            h5 [][text "Id"]
+        ]
+        , div [class "d-flex justify-content-center"][
+            span [ classList[("badge", True), ("badge-dark", True)]][ 
+            text ( 
+                if (isEmpty model.name) || (isEmpty model.adjective) then
+                    "-"
                 else 
                     String.replace " " "-" model.name ++ "-" ++ String.replace " " "-" model.adjective
                     )
 
             ]
-
-
-    ]
-    ,div [ classList[("d-flex justify-content-center", True)] ][
-         button [ onClick (LoadData) , type_ "button", classList[("btn", True), ("btn-primary", True), ("btn-lg", True)]] [text "Generate!"]
-         
-         , button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True),  ("btn-lg", True)] ] [text "Reset"]
-
         ]
+    ]
+
+    ,div [ classList[("d-flex justify-content-center", True)] ][
+        div [class "btn-toolbar"][
+            div [ class "btn-group"][
+                button [ onClick (LoadData) , type_ "button", classList[("btn", True), ("btn-primary", True), ("btn-lg", True)]] [text "Generate!"]
+            ]
+            , div [ class "btn-group"][
+                button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True),  ("btn-lg", True)] ] [text "Reset"]
+            ]
+        ]
+   
+    ]
     , div [class "d-flex justify-content-center"][
             p [ class "subtext" ][
             text ( 
