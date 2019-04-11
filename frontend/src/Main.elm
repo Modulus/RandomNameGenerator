@@ -7,6 +7,9 @@ import Html.Events exposing (onInput, onClick)
 import Http
 import Json.Decode exposing (Decoder, field, string, int, map2)
 import String exposing(isEmpty)
+import String.Extra exposing(toTitleCase)
+apiUrl : String
+apiUrl = "http://localhost:5000/json"
 
 ---- MODEL ----
 
@@ -31,7 +34,7 @@ composeText model =
 fetchData : Cmd Msg
 fetchData = 
     Http.get 
-    { url = "http://localhost:5000/json"
+    { url = apiUrl
      , expect  = Http.expectJson Update jsonDecoder
     }
 
@@ -74,7 +77,7 @@ update msg model =
                 Ok data ->
                     ({model | name = data.name, adjective = data.adjective}, Cmd.none)
                 Err errorMsssage ->
-                    ({model | name ="Failed!"}, Cmd.none)
+                    ({model | name ="Failed!", adjective="Br0ken!"}, Cmd.none)
         Reset ->
             ( { model | name = "", adjective = ""}, Cmd.none)
 
@@ -95,7 +98,7 @@ view model =
             if (isEmpty model.name) || (isEmpty model.adjective) then
                 "Not found"
             else 
-                model.name ++ " " ++ model.adjective
+                String.Extra.toTitleCase (model.name ++ " " ++ model.adjective)
                 )
 
         ]
@@ -110,7 +113,7 @@ view model =
                 if (isEmpty model.name) || (isEmpty model.adjective) then
                     "Not found"
                 else 
-                    model.name ++ "-" ++ model.adjective
+                    String.replace " " "-" model.name ++ "-" ++ String.replace " " "-" model.adjective
                     )
 
             ]

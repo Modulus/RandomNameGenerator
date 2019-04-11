@@ -4046,6 +4046,107 @@ function _VirtualDom_dekey(keyedNode)
 }
 
 
+// CREATE
+
+var _Regex_never = /.^/;
+
+var _Regex_fromStringWith = F2(function(options, string)
+{
+	var flags = 'g';
+	if (options.multiline) { flags += 'm'; }
+	if (options.caseInsensitive) { flags += 'i'; }
+
+	try
+	{
+		return elm$core$Maybe$Just(new RegExp(string, flags));
+	}
+	catch(error)
+	{
+		return elm$core$Maybe$Nothing;
+	}
+});
+
+
+// USE
+
+var _Regex_contains = F2(function(re, string)
+{
+	return string.match(re) !== null;
+});
+
+
+var _Regex_findAtMost = F3(function(n, re, str)
+{
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex == re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch
+				? elm$core$Maybe$Just(submatch)
+				: elm$core$Maybe$Nothing;
+		}
+		out.push(A4(elm$regex$Regex$Match, result[0], result.index, number, _List_fromArray(subs)));
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _List_fromArray(out);
+});
+
+
+var _Regex_replaceAtMost = F4(function(n, re, replacer, string)
+{
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch
+				? elm$core$Maybe$Just(submatch)
+				: elm$core$Maybe$Nothing;
+		}
+		return replacer(A4(elm$regex$Regex$Match, match, arguments[arguments.length - 2], count, _List_fromArray(submatches)));
+	}
+	return string.replace(re, jsReplacer);
+});
+
+var _Regex_splitAtMost = F3(function(n, re, str)
+{
+	var string = str;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		var result = re.exec(string);
+		if (!result) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _List_fromArray(out);
+});
+
+var _Regex_infinity = Infinity;
+
+
 
 
 // ELEMENT
@@ -4972,6 +5073,7 @@ var author$project$Main$init = _Utils_Tuple2(
 var author$project$Main$Update = function (a) {
 	return {$: 'Update', a: a};
 };
+var author$project$Main$apiUrl = 'http://localhost:5000/json';
 var elm$json$Json$Decode$field = _Json_decodeField;
 var elm$json$Json$Decode$map2 = _Json_map2;
 var elm$json$Json$Decode$string = _Json_decodeString;
@@ -5864,7 +5966,7 @@ var elm$http$Http$get = function (r) {
 var author$project$Main$fetchData = elm$http$Http$get(
 	{
 		expect: A2(elm$http$Http$expectJson, author$project$Main$Update, author$project$Main$jsonDecoder),
-		url: 'http://localhost:5000/json'
+		url: author$project$Main$apiUrl
 	});
 var author$project$Main$update = F2(
 	function (msg, model) {
@@ -5907,6 +6009,13 @@ var author$project$Main$Reset = {$: 'Reset'};
 var elm$core$String$isEmpty = function (string) {
 	return string === '';
 };
+var elm$core$String$replace = F3(
+	function (before, after, string) {
+		return A2(
+			elm$core$String$join,
+			after,
+			A2(elm$core$String$split, before, string));
+	});
 var elm$json$Json$Decode$map = _Json_map1;
 var elm$json$Json$Decode$succeed = _Json_succeed;
 var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
@@ -5994,6 +6103,85 @@ var elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		elm$json$Json$Decode$succeed(msg));
 };
+var elm$regex$Regex$Match = F4(
+	function (match, index, number, submatches) {
+		return {index: index, match: match, number: number, submatches: submatches};
+	});
+var elm$regex$Regex$replace = _Regex_replaceAtMost(_Regex_infinity);
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
+var elm$regex$Regex$fromString = function (string) {
+	return A2(
+		elm$regex$Regex$fromStringWith,
+		{caseInsensitive: false, multiline: false},
+		string);
+};
+var elm$regex$Regex$never = _Regex_never;
+var elm_community$string_extra$String$Extra$regexFromString = A2(
+	elm$core$Basics$composeR,
+	elm$regex$Regex$fromString,
+	elm$core$Maybe$withDefault(elm$regex$Regex$never));
+var elm$core$Char$toUpper = _Char_toUpper;
+var elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return elm$core$Maybe$Nothing;
+		}
+	});
+var elm$core$String$cons = _String_cons;
+var elm_community$string_extra$String$Extra$changeCase = F2(
+	function (mutator, word) {
+		return A2(
+			elm$core$Maybe$withDefault,
+			'',
+			A2(
+				elm$core$Maybe$map,
+				function (_n0) {
+					var head = _n0.a;
+					var tail = _n0.b;
+					return A2(
+						elm$core$String$cons,
+						mutator(head),
+						tail);
+				},
+				elm$core$String$uncons(word)));
+	});
+var elm_community$string_extra$String$Extra$toSentenceCase = function (word) {
+	return A2(elm_community$string_extra$String$Extra$changeCase, elm$core$Char$toUpper, word);
+};
+var elm_community$string_extra$String$Extra$toTitleCase = function (ws) {
+	var uppercaseMatch = A2(
+		elm$regex$Regex$replace,
+		elm_community$string_extra$String$Extra$regexFromString('\\w+'),
+		A2(
+			elm$core$Basics$composeR,
+			function ($) {
+				return $.match;
+			},
+			elm_community$string_extra$String$Extra$toSentenceCase));
+	return A3(
+		elm$regex$Regex$replace,
+		elm_community$string_extra$String$Extra$regexFromString('^([a-z])|\\s+([a-z])'),
+		A2(
+			elm$core$Basics$composeR,
+			function ($) {
+				return $.match;
+			},
+			uppercaseMatch),
+		ws);
+};
 var author$project$Main$view = function (model) {
 	return A2(
 		elm$html$Html$div,
@@ -6040,7 +6228,7 @@ var author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								elm$html$Html$text(
-								(elm$core$String$isEmpty(model.name) || elm$core$String$isEmpty(model.adjective)) ? 'Not found' : (model.name + (' ' + model.adjective)))
+								(elm$core$String$isEmpty(model.name) || elm$core$String$isEmpty(model.adjective)) ? 'Not found' : elm_community$string_extra$String$Extra$toTitleCase(model.name + (' ' + model.adjective)))
 							]))
 					])),
 				A2(
@@ -6073,7 +6261,7 @@ var author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								elm$html$Html$text(
-								(elm$core$String$isEmpty(model.name) || elm$core$String$isEmpty(model.adjective)) ? 'Not found' : (model.name + ('-' + model.adjective)))
+								(elm$core$String$isEmpty(model.name) || elm$core$String$isEmpty(model.adjective)) ? 'Not found' : (A3(elm$core$String$replace, ' ', '-', model.name) + ('-' + A3(elm$core$String$replace, ' ', '-', model.adjective))))
 							]))
 					])),
 				A2(
