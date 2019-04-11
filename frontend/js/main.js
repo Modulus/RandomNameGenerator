@@ -4586,9 +4586,9 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Main$Model = F2(
-	function (name, adjective) {
-		return {adjective: adjective, name: name};
+var author$project$Main$Model = F3(
+	function (name, adjective, timestamp) {
+		return {adjective: adjective, name: name, timestamp: timestamp};
 	});
 var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$True = {$: 'True'};
@@ -5068,20 +5068,21 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Main$init = _Utils_Tuple2(
-	A2(author$project$Main$Model, '', ''),
+	A3(author$project$Main$Model, '', '', ''),
 	elm$core$Platform$Cmd$none);
 var author$project$Main$Update = function (a) {
 	return {$: 'Update', a: a};
 };
 var author$project$Main$apiUrl = 'http://localhost:5000/json';
 var elm$json$Json$Decode$field = _Json_decodeField;
-var elm$json$Json$Decode$map2 = _Json_map2;
+var elm$json$Json$Decode$map3 = _Json_map3;
 var elm$json$Json$Decode$string = _Json_decodeString;
-var author$project$Main$jsonDecoder = A3(
-	elm$json$Json$Decode$map2,
+var author$project$Main$jsonDecoder = A4(
+	elm$json$Json$Decode$map3,
 	author$project$Main$Model,
 	A2(elm$json$Json$Decode$field, 'adjective', elm$json$Json$Decode$string),
-	A2(elm$json$Json$Decode$field, 'name', elm$json$Json$Decode$string));
+	A2(elm$json$Json$Decode$field, 'name', elm$json$Json$Decode$string),
+	A2(elm$json$Json$Decode$field, 'timestamp', elm$json$Json$Decode$string));
 var elm$core$Result$mapError = F2(
 	function (f, result) {
 		if (result.$ === 'Ok') {
@@ -5986,14 +5987,14 @@ var author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{adjective: data.adjective, name: data.name}),
+							{adjective: data.adjective, name: data.name, timestamp: data.timestamp}),
 						elm$core$Platform$Cmd$none);
 				} else {
 					var errorMsssage = result.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{name: 'Failed!'}),
+							{adjective: 'Br0ken!', name: 'Failed!'}),
 						elm$core$Platform$Cmd$none);
 				}
 			default:
@@ -6017,6 +6018,7 @@ var elm$core$String$replace = F3(
 			A2(elm$core$String$split, before, string));
 	});
 var elm$json$Json$Decode$map = _Json_map1;
+var elm$json$Json$Decode$map2 = _Json_map2;
 var elm$json$Json$Decode$succeed = _Json_succeed;
 var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	switch (handler.$) {
@@ -6311,6 +6313,26 @@ var author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								elm$html$Html$text('Reset')
+							]))
+					])),
+				A2(
+				elm$html$Html$div,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('d-flex justify-content-center')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$p,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('subtext')
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text(
+								elm$core$String$isEmpty(model.timestamp) ? '' : ('Generated at ' + model.timestamp))
 							]))
 					])),
 				A2(

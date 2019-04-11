@@ -5,11 +5,14 @@ import Html exposing (Html, text, div, h1, h5, img, input, button, Attribute , t
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
-import Json.Decode exposing (Decoder, field, string, int, map2)
+import Json.Decode exposing (Decoder, field, string, int, map2, map3, map)
 import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
 apiUrl = "http://localhost:5000/json"
+
+comboUrl : String
+comboUrl = "http://localhost:5000/stat"
 
 ---- MODEL ----
 
@@ -18,7 +21,7 @@ type alias Model =
     {
         name: String
         , adjective: String
-       -- , timestamp: String
+        , timestamp: String
     }
 
 -- type alias Config = 
@@ -42,16 +45,14 @@ fetchData =
      
 jsonDecoder : Decoder Model
 jsonDecoder = 
-   map2 Model 
+   map3 Model 
     (field "adjective" string)
     (field "name" string)
-   -- (field "timestamp" string)
-
-
+    (field "timestamp" string)
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "" "", Cmd.none )
+    ( Model "" "" "", Cmd.none )
 
 
 
@@ -75,7 +76,7 @@ update msg model =
         Update result ->
             case result of
                 Ok data ->
-                    ({model | name = data.name, adjective = data.adjective}, Cmd.none)
+                    ({model | name = data.name, adjective = data.adjective, timestamp = data.timestamp}, Cmd.none)
                 Err errorMsssage ->
                     ({model | name ="Failed!", adjective="Br0ken!"}, Cmd.none)
         Reset ->
@@ -124,6 +125,16 @@ view model =
          , button [ onClick (Reset ), type_ "button", classList[("btn", True), ("btn-danger", True),  ("btn-lg", True)] ] [text "Reset"]
 
         ]
+    , div [class "d-flex justify-content-center"][
+            p [ class "subtext" ][
+            text ( 
+                if (isEmpty model.timestamp)  then
+                    ""
+                else 
+                    "Generated at " ++ model.timestamp
+                    )
+            ]
+    ]
     , div [class "d-flex justify-content-center"][
         p [class "subtext" ][ text "Generating names out of 165 784 possible cominations"]
         ]

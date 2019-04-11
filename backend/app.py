@@ -36,7 +36,12 @@ def generate_json():
     adjective, name = generate_element()
 
     logger.msg(f"Name is: {name}, adjective is: {adjective}")
+    timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-    response = jsonify({"name":  f"{name.lower()}", "adjective": f"{adjective.lower()}", "timestamp": strftime("%Y-%m-%d %H:%M:%S", gmtime())})
+    json_string = {"name":  f"{name.lower()}", "adjective": f"{adjective.lower()}", "timestamp": timestamp}
+    response = jsonify(json_string)
+    
+    logger.msg(f"Returning {json_string}")
+
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
