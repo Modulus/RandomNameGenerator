@@ -5,23 +5,31 @@ import Html exposing (Html, text, div, h1, h5, img, input, button, Attribute , t
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
-import Json.Decode exposing (Decoder, field, string, int, map2, map3, map)
+import Json.Decode exposing (Decoder, field, string, int, map2, map3, map4, map)
 import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
-apiUrl = "http://localhost:5000/json"
+--apiUrl = "http://localhost:5000/json"
+apiUrl = "api/json"
 
 comboUrl : String
 comboUrl = "http://localhost:5000/stat"
 
 ---- MODEL ----
 
+-- https://auth0.com/blog/creating-your-first-elm-app-part-2/
+
+type alias Flags = 
+    {
+        url : String
+    }
 
 type alias Model =
     {
         name: String
         , adjective: String
         , timestamp: String
+        , url : String
     }
 
 -- type alias Config = 
@@ -45,14 +53,15 @@ fetchData =
      
 jsonDecoder : Decoder Model
 jsonDecoder = 
-   map3 Model 
+   map4 Model 
     (field "adjective" string)
     (field "name" string)
     (field "timestamp" string)
+    (field "url" string)
 
-init : ( Model, Cmd Msg )
-init =
-    ( Model "" "" "", Cmd.none )
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    ( Model "" "" "" flags.url, Cmd.none )
 
 
 
@@ -154,11 +163,11 @@ view model =
 ---- PROGRAM ----
 
 
-main : Program () Model Msg
+main : Program Flags Model Msg
 main =
     Browser.element
         { view = view
-        , init = \_ -> init
+        , init =  init
         , update = update
         , subscriptions = always Sub.none
         } 

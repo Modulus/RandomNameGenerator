@@ -5,7 +5,7 @@ COPY . .
 
 RUN  mkdir -p /usr/local/lib/node_modules/create-elm-app/node_modules/elmi-to-json/unpacked_bin && npm install -g create-elm-app -unsafe-perm=true && npm install
 
-RUN elm-app build
+RUN API_URL="http://snadder.io/api" elm-app build
 RUN ls -la build/static
 # --output js/main.js
 
