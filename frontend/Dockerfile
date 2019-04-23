@@ -15,12 +15,7 @@ FROM nginx:1.15-alpine
 
 RUN mkdir /usr/share/nginx/html/js
 
-COPY public/ /usr/share/nginx/html
-
 COPY --from=builder build /usr/share/nginx/html
-
-COPY --from=builder node_modules/bootstrap/dist /usr/share/nginx/html/node_modules/bootstrap/dist
-
 
 RUN ls -la /usr/share/nginx/html/static
 
