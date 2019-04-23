@@ -9,8 +9,8 @@ import Json.Decode exposing (Decoder, field, string, int, map2, map3, map4, map)
 import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
---apiUrl = "http://localhost:5000/json"
-apiUrl = "api/json"
+apiUrl = "http://localhost:5000/json"
+--apiUrl = "api/json"
 
 comboUrl : String
 comboUrl = "http://localhost:5000/stat"
@@ -29,7 +29,6 @@ type alias Model =
         name: String
         , adjective: String
         , timestamp: String
-        , url : String
     }
 
 -- type alias Config = 
@@ -53,15 +52,14 @@ fetchData =
      
 jsonDecoder : Decoder Model
 jsonDecoder = 
-   map4 Model 
+   map3 Model 
     (field "adjective" string)
     (field "name" string)
     (field "timestamp" string)
-    (field "url" string)
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( Model "" "" "" flags.url, Cmd.none )
+    ( Model "" "" "", Cmd.none )
 
 
 
