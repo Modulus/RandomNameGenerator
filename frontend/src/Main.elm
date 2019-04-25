@@ -9,8 +9,8 @@ import Json.Decode exposing (Decoder, field, string, int, map2, map3, map4, map)
 import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
-apiUrl = "http://localhost:5000/json"
---apiUrl = "api/json"
+--apiUrl = "http://localhost:5000/json"
+apiUrl = "api/json"
 
 comboUrl : String
 comboUrl = "http://localhost:5000/stat"
