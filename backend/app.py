@@ -12,7 +12,7 @@ app = Flask(__name__)
 logger.msg("Application ready to handle requests")
 
 
-@app.route("/")
+@app.route("/raw")
 def generate():
 
     adjective, name = generate_element()
@@ -30,7 +30,7 @@ def stats():
     return response
 
 
-@app.route("/json")
+@app.route("/")
 def generate_json():
 
     adjective, name = generate_element()
