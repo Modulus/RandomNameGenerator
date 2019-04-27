@@ -10,7 +10,8 @@ import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
 --apiUrl = "http://localhost:5000/json"
-apiUrl = "api/json"
+--apiUrl = "api/json"
+apiUrl = "http://generator.aws5.tv2.no/"
 
 comboUrl : String
 comboUrl = "http://localhost:5000/stat"
