@@ -9,9 +9,9 @@ import Json.Decode exposing (Decoder, field, string, int, map2, map3, map4, map)
 import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
---apiUrl = "http://localhost:5000/json"
+apiUrl = "http://localhost:5000/"
 --apiUrl = "api/json"
-apiUrl = "http://generator.aws5.tv2.no/"
+--apiUrl = "http://generator.aws5.tv2.no/"
 
 comboUrl : String
 comboUrl = "http://localhost:5000/stat"
@@ -141,18 +141,18 @@ view model =
         ]
    
     ]
+    -- , div [class "d-flex justify-content-center"][
+    --         p [ class "subtext" ][
+    --         text ( 
+    --             if (isEmpty model.timestamp)  then
+    --                 ""
+    --             else 
+    --                 "Generated at " ++ model.timestamp 
+    --                 )
+    --         ]
+    -- ]
     , div [class "d-flex justify-content-center"][
-            p [ class "subtext" ][
-            text ( 
-                if (isEmpty model.timestamp)  then
-                    ""
-                else 
-                    "Generated at " ++ model.timestamp
-                    )
-            ]
-    ]
-    , div [class "d-flex justify-content-center"][
-        p [class "subtext" ][ text "Generating names out of 165 784 possible cominations"]
+        p [class "subtext" ][ text "Generating names out of 301 052 possible cominations"]
         ]
     
     ]

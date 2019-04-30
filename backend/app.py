@@ -38,10 +38,17 @@ def generate_json():
     logger.msg(f"Name is: {name}, adjective is: {adjective}")
     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-    json_string = {"name":  f"{name.lower()}", "adjective": f"{adjective.lower()}", "timestamp": timestamp}
+    json_string = {"name":  f"{cleanUp(name.lower())}", "adjective": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
     response = jsonify(json_string)
     
     logger.msg(f"Returning {json_string}")
 
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
+
+
+def cleanUp(text):
+    if text and len(text) > 0:
+        return text.replace("-", " ")
+    else:
+        return text
