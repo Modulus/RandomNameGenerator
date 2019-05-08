@@ -10,7 +10,7 @@ import String exposing(isEmpty)
 import String.Extra exposing(toTitleCase)
 apiUrl : String
 --apiUrl = "http://localhost:5000/"
-apiUrl = "api/json"
+apiUrl = "api/"
 --apiUrl = "http://generator.aws5.tv2.no/"
 
 comboUrl : String
