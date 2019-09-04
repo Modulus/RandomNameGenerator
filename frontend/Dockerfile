@@ -1,9 +1,9 @@
-FROM node:8.15-alpine as builder
+FROM node:8.16-alpine as builder
 
 COPY . .
 
 
-RUN  mkdir -p /usr/local/lib/node_modules/create-elm-app/node_modules/elmi-to-json/unpacked_bin && npm install -g create-elm-app -unsafe-perm=true && npm install
+RUN  apk add git && mkdir -p /usr/local/lib/node_modules/create-elm-app/node_modules/elmi-to-json/unpacked_bin && npm install -g create-elm-app -unsafe-perm=true && npm install
 
 RUN API_URL="http://snadder.io/api" elm-app build
 RUN ls -la build/static
@@ -11,7 +11,7 @@ RUN ls -la build/static
 
 
 
-FROM nginx:1.15-alpine
+FROM nginx:1.17-alpine
 
 RUN mkdir /usr/share/nginx/html/js
 
