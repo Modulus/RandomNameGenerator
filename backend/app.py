@@ -1,5 +1,4 @@
 import pandas
-import structlog
 from flask import Flask, jsonify
 from time import gmtime, strftime
 from main import generate_element, amount_combos
