@@ -1,6 +1,10 @@
 import pandas
-import structlog
 
+import logging
+import sys
+
+
+logger = logging.getLogger("main")
 
 def len_animals():
     with open("./resources/animals.csv") as animals_file:
@@ -14,26 +18,24 @@ def amount_combos():
     return len_animals() * len_adjectives()
 
 def generate_element():
-    logger = structlog.get_logger()
 
     animals_df = pandas.read_csv("./resources/animals.csv")
 
     animal_name_df = animals_df.sample()
-    print(animal_name_df)
     animal_name = animal_name_df.values[0][0]
 
-    logger.msg("animal name sampled", name=f"{animal_name}")
+    logger.debug("animal name sampled", name=f"{animal_name}")
 
     adjectives_df = pandas.read_csv("./resources/adjectives.csv")
     adjective_df = adjectives_df.sample()
 
     adjective = adjective_df.values[0][0]
 
-    logger.msg("adjective sampled", adjective=f"{adjective}")
+    logger.debug("adjective sampled", adjective=f"{adjective}")
 
     # Replace spaces with - in animal name
     #animal_name = animal_name.replace(" ", "-")
-    logger.msg(f"Returning  {adjective} {animal_name}")
+    logger.debug(f"Returning  {adjective} {animal_name}")
 
     return adjective.capitalize(), animal_name.capitalize()
 
