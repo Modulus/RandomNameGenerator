@@ -15,7 +15,7 @@ test-frontend:
   script:
     - cd frontend
     - npm install
-    - npm install create-elm-app
+    - npm install -g create-elm-app
     - elm-app test
 
 # build_backend:
