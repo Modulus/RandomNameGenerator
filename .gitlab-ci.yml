@@ -15,11 +15,13 @@ test-frontend:
   script:
     - cd frontend
     - npm install
-    - npm install -g create-elm-app
-    - elm-app test
+    - npm install create-elm-app
+    - PATH=$(npm bin):$PATH elm-app test
 
 # build_backend:
 #   stage: build
+#   image: node
+
 
 # build_frontend:
 #   stage: build
