@@ -1,19 +1,21 @@
-image: "python:3.7"
 
-build_and_test_backend:
+
+test-backend:
   stage: test
+  image: python:3.7
   script:
     - cd backend
     - pip install pytest
     - pip install -r requirements.txt
     - pytest tests
 
-build_and_test_frontend:
+test-frontend:
   stage: test
   image: node
   script:
     - cd frontend
     - npm install
+    - npm install create-elm-app
     - elm-app test
 
 # build_backend:
