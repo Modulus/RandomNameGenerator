@@ -4,6 +4,6 @@ test:
   stage: test
   script:
     - cd backend
-    - pip install -r requirements.txt
     - pip install pytest
+    - pip install -r requirements.txt
     - pytest tests
