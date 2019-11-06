@@ -1,15 +1,21 @@
 image: "python:3.7"
 
-test_backend:
-  stage: test
+build_and_test_backend:
   script:
     - cd backend
     - pip install pytest
     - pip install -r requirements.txt
     - pytest tests
-  
-test_frontend:
-  stage: test
+
+build_and_test_frontend:
+  script:
     - cd frontend
     - npm install
     - elm-app test
+
+
+test:
+  stage: test
+  script:
+    - build_and_test_backend
+    - build_and_test_frontend
