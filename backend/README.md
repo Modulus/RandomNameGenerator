@@ -1,7 +1,8 @@
 # How
-pip install -r requirements.txt
+pipenv install
 
-python main.py
+
+pipenv run gunicorn -b :5000 app:app
 
 
 # Alternative
