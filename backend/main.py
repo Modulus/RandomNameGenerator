@@ -17,31 +17,42 @@ def len_adjectives():
 def amount_combos():
     return len_animals() * len_adjectives()
 
-def generate_element():
+def generate_animal_name():
+    return generate_element(first_file="./resources/adjectives.csv", second_file="./resources/animals.csv")
 
-    animals_df = pandas.read_csv("./resources/animals.csv")
+def generate_male_name():
+    return generate_element(first_file="./resources/norwegian_boys.csv", second_file="./resources/norwegian_last.csv")
 
-    animal_name_df = animals_df.sample()
-    animal_name = animal_name_df.values[0][0]
+def generate_female_name():
+    return generate_element(first_file="./resources/norwegian_girls.csv", second_file="./resources/norwegian_last.csv")
 
-    logger.debug("animal name sampled", name=f"{animal_name}")
+def generate_element(first_file, second_file):
 
-    adjectives_df = pandas.read_csv("./resources/adjectives.csv")
-    adjective_df = adjectives_df.sample()
+    first_full_df = pandas.read_csv(first_file)
 
-    adjective = adjective_df.values[0][0]
+    first_df = first_full_df.sample()
+    first_value = first_df.values[0][0]
 
-    logger.debug("adjective sampled", adjective=f"{adjective}")
+    logger.debug("First value sampled", value=f"{first_value}")
+
+    second_full_df = pandas.read_csv(second_file)
+    second_df = second_full_df.sample()
+
+    second_value = second_df.values[0][0]
+
+    logger.debug("Second value sampled", second_value=f"{second_value}")
 
     # Replace spaces with - in animal name
     #animal_name = animal_name.replace(" ", "-")
-    logger.debug(f"Returning  {adjective} {animal_name}")
+    logger.debug(f"Returning  {first_value} {second_value}")
 
-    return adjective.capitalize(), animal_name.capitalize()
+    return first_value.capitalize().strip(), second_value.capitalize().strip()
+
+
 
 
 if __name__ == "__main__":
-    adjective, animal = generate_element()
+    adjective, animal = generate_animal_name()
     print(f"{adjective.capitalize()}-{animal.capitalize()}")
     print(f"{len_animals()}")
     print(f"{len_adjectives()}")

@@ -1,7 +1,7 @@
 import pandas
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from time import gmtime, strftime
-from main import generate_element, amount_combos
+from main import generate_animal_name, generate_male_name, generate_female_name, amount_combos
 
 import logging
 import sys
@@ -37,7 +37,7 @@ logger.info("Application ready to handle requests")
 @app.route("/raw")
 def generate():
 
-    adjective, name = generate_element()
+    adjective, name = generate_animal_name()
     logger.info(f"Name is: {name}, adjective is: {adjective}")
 
     response = f"{adjective.capitalize()} {name.capitalize()}"
@@ -54,25 +54,49 @@ def stats():
 
 @app.route("/")
 def generate_json():
+    req_type = request.args.get("type")
+    gender = request.args.get("gender")
 
-    adjective, name = generate_element()
+    if req_type and gender and req_type == "norwegian" and (gender == "male" or gender == "female"):
 
-    logger.info(f"Name is: {name}, adjective is: {adjective}")
-    timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        if gender == "male":
+            logger.info("Generating male name")
+            f_name, l_name = generate_male_name()
+        elif gender == "female":
+            logger.info("Generating female name")
+            f_name, l_name = generate_female_name()
 
-    json_string = {"name":  f"{cleanUp(name.lower())}", "adjective": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
-    response = jsonify(json_string)
-    
-    logger.info(f"Returning {json_string}")
+        logger.info(f"First name is: {f_name}, last name is: {l_name}")
+        timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+        json_string = {"first":  f"{cleanUp(f_name.lower())}", "second": f"{cleanUp(l_name.lower())}", "timestamp": timestamp}
+        response = jsonify(json_string)
+
+        logger.info(f"Returning {json_string}")
+
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
+
+    else:
+
+        adjective, name = generate_animal_name()
+
+        logger.info(f"Name is: {name}, adjective is: {adjective}")
+        timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+        json_string = {"first":  f"{cleanUp(name.lower())}", "second": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
+        response = jsonify(json_string)
+
+        logger.info(f"Returning {json_string}")
+
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 
 @app.route("/healthz")
 def health_check():
 
-    adjective, name = generate_element()
+    adjective, name = generate_animal_name()
 
     logger.debug(f"Name is: {name}, adjective is: {adjective}")
     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())

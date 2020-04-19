@@ -2,7 +2,7 @@ FROM python:3.7-slim
 
 COPY . .
 
-RUN  pip3 install pipenv && pipenv install gunicorn
+RUN  pip3 install pipenv && pipenv install
 
 
 
