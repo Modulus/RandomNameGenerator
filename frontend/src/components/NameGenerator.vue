@@ -1,26 +1,39 @@
 <template>
   <div class="container">
     <div class="jumbotron jumbotron-fluid">
-      <h1>{{ msg }}</h1>
-      <p>
+      <h1 class="header">Name Generator</h1>
+      
+      <p class="subText">
         Click the large "Generate" button, to generate names
       </p>
       <div class="clicketido">
         <b-button class="buttons" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
         <b-button variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
       </div>
-    </div>
-    <div class="results" v-if="data">
-      <p class="mainText">
-        {{ data.first | capitalize }} {{ data.second | capitalize}}
-      </p>
-        <p style="display: none;" class="badge badge-dark">{{data.first | makeId}}-{{data.second | makeId }}</p>
+
+      <div class="results" v-if="data">
+          <p class="mainText">
+            {{ data.first | capitalize }} {{ data.second | capitalize}}
+          </p>
+            <p style="display: none;" class="badge badge-dark">{{data.first | makeId}}-{{data.second | makeId }}</p>
+        </div>
+
+        <div class="error" v-if="error">
+          Something failed!!!
+        </div>
+
+
     </div>
 
-    <div class="error" v-if="error">
-      Something failed!!!
-    </div>
+    <div class="inputs">
+      <h3>Type</h3>
+      TODO
+      <hr/>
 
+      <h3>Gender</h3>
+      TODO
+      <hr />
+    </div>
 
   </div>
 </template>
@@ -33,13 +46,18 @@ export default {
   },
   data() {
     return {
-      data: null,
+      data: {
+        first: " ",
+        second: " "
+      },
+      type: "norwegian",
+      gender: "female",
       error: null
   }
 },
 methods : {
   generateName(){
-    fetch("http://localhost:5000/?type=nynorsk&gender=female")
+    fetch("http://localhost:5000/?type=" + this.type+"&gender="+ this.gender)
       .then(stream => stream.json())
       .then(data => {
         this.data = {
@@ -48,7 +66,7 @@ methods : {
           timestamp: data.timestamp
         }
         this.error = null
-        console.log("Created new name at servetime: " + data.timestamp)
+        console.log("Created new name at servetime: " + this.data.timestamp)
       })
       .catch(error => {
         console.error(error)
@@ -56,7 +74,10 @@ methods : {
       })
   },
   clear(){
-    this.data = null
+    this.data = {
+      first: " ",
+      second: " "
+    }
     this.error = null
   },
 
