@@ -46,34 +46,54 @@ def test_generate_animal_works():
     assert result != None
 
 
-
-    # assert result == Type.MALE
-
-# def generate_type_animal_works():
-#     element = 
-
-# def test_generate_animal_name():
-#     element = generate_animal_name()
-#     assert element != None
-#     assert len(element) == 2
+def test_generate_animal_name():
+    element = generate(Version.ANIMAL)
+    assert element != None
+    assert len(element) == 2
 
 
-#     name, adj = generate_animal_name()
+    name, adj = generate(Version.ANIMAL)
 
-#     assert name != None
-#     assert len(name) >= 3
-#     assert adj!= None
-#     assert len(adj) >= 3
+    assert name != None
+    assert len(name) >= 3
+    assert adj!= None
+    assert len(adj) >= 3
 
-# def test_generate_male_name():
-#     element = generate_male_name()
+def test_generate_norwegian_male_name():
+    element = generate(version=Version.NORWEGIAN, gender=Gender.MALE)
 
-#     assert element != None
-#     assert len(element) == 2
+    assert element != None
+    assert len(element) == 2
 
 
-# def test_generate_female_name():
-#     element = generate_female_name()
+def test_generate_norwegian_female_name():
+    element = generate(version=Version.NORWEGIAN, gender=Gender.FEMALE)
 
-#     assert element != None
-#     assert len(element) == 2
+    assert element != None
+    assert len(element) == 2
+
+def test_generate_nynorsk_male_name():
+    element = generate(version=Version.NYNORSK, gender=Gender.MALE)
+
+    assert element != None
+    assert len(element) == 2
+
+
+def test_generate_nynorsk_female_name():
+    element = generate(version=Version.NYNORSK, gender=Gender.FEMALE)
+
+    assert element != None
+    assert len(element) == 2
+
+def test_generate_norse_male_name():
+    element = generate(version=Version.NORSE, gender=Gender.MALE)
+
+    assert element != None
+    assert len(element) == 2
+
+
+def test_generate_norse_female_name():
+    element = generate(version=Version.NORSE, gender=Gender.FEMALE)
+
+    assert element != None
+    assert len(element) == 2
