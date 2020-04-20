@@ -2,7 +2,7 @@
 import pandas
 from flask import Flask, jsonify, request
 from time import gmtime, strftime
-from main import generate, amount_combos, Version
+from main import generate, amount_combos, Version, to_gender_enum, to_version_enum
 
 import logging
 import sys
@@ -58,32 +58,10 @@ def generate_json():
     req_type = request.args.get("type")
     gender = request.args.get("gender")
 
+    version_enum = to_version_enum(req_type)
+    gender_enum = to_gender_enum(gender)
 
-    
-    # if req_type and gender and req_type == "norwegian" and (gender == "male" or gender == "female"):
-
-    #     if gender == "male":
-    #         logger.info("Generating male name")
-    #         f_name, l_name = generate_male_name()
-    #     elif gender == "female":
-    #         logger.info("Generating female name")
-    #         f_name, l_name = generate_female_name()
-
-    #     logger.info(f"First name is: {f_name}, last name is: {l_name}")
-    #     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-
-    #     json_string = {"first":  f"{cleanUp(f_name.lower())}", "second": f"{cleanUp(l_name.lower())}", "timestamp": timestamp}
-    #     response = jsonify(json_string)
-
-    #     logger.info(f"Returning {json_string}")
-
-    #     response.headers.add('Access-Control-Allow-Origin', '*')
-    #     # response.headers.add("Content-Type", "application/json; charset=utf-8")
-    #     return response
-
-    # else:
-
-    adjective, name = generate(Version.ANIMAL)
+    adjective, name = generate(version=version_enum, gender=gender_enum)
 
     logger.info(f"Name is: {name}, adjective is: {adjective}")
     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
