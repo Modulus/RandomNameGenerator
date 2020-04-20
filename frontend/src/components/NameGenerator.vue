@@ -1,21 +1,20 @@
 <template>
-  <div class="hello">
+  <div class="container">
     <div class="jumbotron jumbotron-fluid">
       <h1>{{ msg }}</h1>
       <p>
-        Click the large "Generate" butteon, to generate some animal names
+        Click the large "Generate" button, to generate names
       </p>
       <div class="clicketido">
         <b-button class="buttons" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
         <b-button variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
       </div>
     </div>
-
     <div class="results" v-if="data">
-      First: {{ data.first | capitalize }}
-      Second: {{ data.second | capitalize }}
-      TimeStamp: {{ data.timestamp }}
-
+      <p class="mainText">
+        {{ data.first | capitalize }} {{ data.second | capitalize}}
+      </p>
+        <p style="display: none;" class="badge badge-dark">{{data.first | makeId}}-{{data.second | makeId }}</p>
     </div>
 
     <div class="error" v-if="error">
@@ -40,7 +39,7 @@ export default {
 },
 methods : {
   generateName(){
-    fetch("http://localhost:5000/")
+    fetch("http://localhost:5000/?type=nynorsk&gender=female")
       .then(stream => stream.json())
       .then(data => {
         this.data = {
@@ -49,6 +48,7 @@ methods : {
           timestamp: data.timestamp
         }
         this.error = null
+        console.log("Created new name at servetime: " + data.timestamp)
       })
       .catch(error => {
         console.error(error)
@@ -58,6 +58,19 @@ methods : {
   clear(){
     this.data = null
     this.error = null
+  },
+
+},
+filters: {
+  capitalize: function (value) {
+    if (!value) return ""
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  },
+  makeId: function(value){
+    if (!value) return ""
+    value = value.toString()
+    return value.split(" ").join("-")
   }
 }
 // mounted(){

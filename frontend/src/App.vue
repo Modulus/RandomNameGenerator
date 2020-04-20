@@ -30,4 +30,44 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
+body {
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  text-align: center;
+  color: #293c4b;
+}
+
+
+img {
+  margin: 20px 0;
+  max-width: 200px;
+}
+
+
+.subText {
+  color: cornflowerblue;
+  padding-top: 50px;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.mainText {
+  color: darkcyan;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-size: 2.5em;
+}
+
+.header {
+  color: brown;
+  padding-top: 0.5em;
+  padding-bottom: 1em;
+  font-size: 3em;
+}
+
+.pad-right {
+  padding-right: 50px;
+}
 </style>
