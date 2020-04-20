@@ -1,10 +1,24 @@
+# -*- coding: utf-8 -*-
+
 import pandas
 
 import logging
 import sys
+from enum import Enum
 
 
 logger = logging.getLogger("main")
+
+class Version(Enum):
+    NORWEGIAN = 1
+    ANIMAL = 2
+    NORSE = 3
+    NYNORSK = 4
+
+
+class Gender(Enum):
+    MALE = 1
+    FEMALE = 2
 
 def len_animals():
     with open("./resources/animals.csv") as animals_file:
@@ -17,14 +31,53 @@ def len_adjectives():
 def amount_combos():
     return len_animals() * len_adjectives()
 
-def generate_animal_name():
-    return generate_element(first_file="./resources/adjectives.csv", second_file="./resources/animals.csv")
+def to_gender_enum(gender_string):
+    if gender_string:
+        if gender_string.lower() == "male":
+            return Gender.MALE
+        else:
+            return Gender.FEMALE
+    return Gender.MALE
 
-def generate_male_name():
-    return generate_element(first_file="./resources/norwegian_boys.csv", second_file="./resources/norwegian_last.csv")
+def to_version_enum(version_string):
+    if version_string:
+        if version_string.lower() == "animal":
+            return Version.ANIMAL
+        elif version_string.lower() == "norwegian":
+            return Version.NORWEGIAN
+        elif version_string.lower() == "norse":
+            return Version.NORSE
+        elif version_string.lower() == "nynorsk":
+            return Version.NYNORSK
+        else:
+            return Version.ANIMAL
+    else:
+        return Version.ANIMAL
 
-def generate_female_name():
-    return generate_element(first_file="./resources/norwegian_girls.csv", second_file="./resources/norwegian_last.csv")
+def generate(version, gender=None):
+    if version == Version.NORWEGIAN:
+        if gender == Gender.MALE:
+            return generate_element(first_file="./resources/norwegian_boys.csv", second_file="./resources/norwegian_last.csv")
+        else:
+            return generate_element(first_file="./resources/norwegian_girls.csv", second_file="./resources/norwegian_last.csv")
+    elif version == Version.NORSE:
+        if gender == Gender.MALE:
+            return generate_element(first_file="./resources/norse_male.csv", second_file="./resources/norwegian_last.csv")
+        else:
+            return generate_element(first_file="./resources/norse_female.csv", second_file="./resources/norwegian_last.csv")
+    elif version == Version.NYNORSK:
+        if gender == Gender.MALE:
+            first_name_a, first_name_b = generate_element(first_file="./resources/nynorsk/first_female_a.csv", second_file="./resources/nynorsk/first_female_a.csv")
+            last_name_a, last_name_b = generate_element(first_file="./resources/nynorsk/first_female_a.csv", second_file="./resources/nynorsk/first_female_a.csv")
+            return ("{}{}".format(first_name_a, first_name_b), "{}{}".format(last_name_a, last_name_b))
+        else:
+            first_name_a, first_name_b = generate_element(first_file="./resources/nynorsk/first_female_a.csv", second_file="./resources/nynorsk/first_female_a.csv")
+            last_name_a, last_name_b = generate_element(first_file="./resources/nynorsk/first_female_a.csv", second_file="./resources/nynorsk/first_female_a.csv") 
+            return ("{}{}".format(first_name_a, first_name_b), "{}{}".format(last_name_a, last_name_b))
+    else:
+        return generate_element(first_file="./resources/adjectives.csv", second_file="./resources/animals.csv")
+             
+
 
 def generate_element(first_file, second_file):
 
@@ -51,8 +104,8 @@ def generate_element(first_file, second_file):
 
 
 
-if __name__ == "__main__":
-    adjective, animal = generate_animal_name()
-    print(f"{adjective.capitalize()}-{animal.capitalize()}")
-    print(f"{len_animals()}")
-    print(f"{len_adjectives()}")
+# if __name__ == "__main__":
+#     adjective, animal = generate_animal_name()
+#     print(f"{adjective.capitalize()}-{animal.capitalize()}")
+#     print(f"{len_animals()}")
+#     print(f"{len_adjectives()}")

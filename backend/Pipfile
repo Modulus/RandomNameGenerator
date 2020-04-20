@@ -6,19 +6,12 @@ verify_ssl = true
 [dev-packages]
 black = "*"
 pytest = "*"
+v = {editable = true,version = "*"}
 
 [packages]
-click = "==7.0"
-itsdangerous = "==1.1.0"
 numpy = "==1.18.2" # "==1.16.2"
 pandas = "==1.0.3" #"==0.24.1"
-python-dateutil = "==2.8.0"
-pytz = "==2018.9"
-six = "==1.12.0"
-Flask = "==1.0.2"
-Jinja2 = ">=2.10.1"
-MarkupSafe = "==1.1.1"
-Werkzeug = "==0.14.1"
+Flask = "==1.1.2"
 gunicorn = "*"
 
 [requires]

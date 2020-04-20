@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 import pandas
 from flask import Flask, jsonify, request
 from time import gmtime, strftime
-from main import generate_animal_name, generate_male_name, generate_female_name, amount_combos
+from main import generate, amount_combos, Version
 
 import logging
 import sys
@@ -35,7 +36,7 @@ logger.info("Application ready to handle requests")
 
 
 @app.route("/raw")
-def generate():
+def generate_raw():
 
     adjective, name = generate_animal_name()
     logger.info(f"Name is: {name}, adjective is: {adjective}")
@@ -57,40 +58,43 @@ def generate_json():
     req_type = request.args.get("type")
     gender = request.args.get("gender")
 
-    if req_type and gender and req_type == "norwegian" and (gender == "male" or gender == "female"):
 
-        if gender == "male":
-            logger.info("Generating male name")
-            f_name, l_name = generate_male_name()
-        elif gender == "female":
-            logger.info("Generating female name")
-            f_name, l_name = generate_female_name()
+    
+    # if req_type and gender and req_type == "norwegian" and (gender == "male" or gender == "female"):
 
-        logger.info(f"First name is: {f_name}, last name is: {l_name}")
-        timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    #     if gender == "male":
+    #         logger.info("Generating male name")
+    #         f_name, l_name = generate_male_name()
+    #     elif gender == "female":
+    #         logger.info("Generating female name")
+    #         f_name, l_name = generate_female_name()
 
-        json_string = {"first":  f"{cleanUp(f_name.lower())}", "second": f"{cleanUp(l_name.lower())}", "timestamp": timestamp}
-        response = jsonify(json_string)
+    #     logger.info(f"First name is: {f_name}, last name is: {l_name}")
+    #     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-        logger.info(f"Returning {json_string}")
+    #     json_string = {"first":  f"{cleanUp(f_name.lower())}", "second": f"{cleanUp(l_name.lower())}", "timestamp": timestamp}
+    #     response = jsonify(json_string)
 
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
+    #     logger.info(f"Returning {json_string}")
 
-    else:
+    #     response.headers.add('Access-Control-Allow-Origin', '*')
+    #     # response.headers.add("Content-Type", "application/json; charset=utf-8")
+    #     return response
 
-        adjective, name = generate_animal_name()
+    # else:
 
-        logger.info(f"Name is: {name}, adjective is: {adjective}")
-        timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    adjective, name = generate(Version.ANIMAL)
 
-        json_string = {"first":  f"{cleanUp(name.lower())}", "second": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
-        response = jsonify(json_string)
+    logger.info(f"Name is: {name}, adjective is: {adjective}")
+    timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-        logger.info(f"Returning {json_string}")
+    json_string = {"first":  f"{cleanUp(name.lower())}", "second": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
+    response = jsonify(json_string)
 
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
+    logger.info(f"Returning {json_string}")
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 @app.route("/healthz")
