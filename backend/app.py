@@ -61,12 +61,12 @@ def generate_json():
     version_enum = to_version_enum(req_type)
     gender_enum = to_gender_enum(gender)
 
-    adjective, name = generate(version=version_enum, gender=gender_enum)
+    first, second = generate(version=version_enum, gender=gender_enum)
 
-    logger.info(f"Name is: {name}, adjective is: {adjective}")
+    logger.info(f"first is: {first}, second is: {second}")
     timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
-    json_string = {"first":  f"{cleanUp(name.lower())}", "second": f"{cleanUp(adjective.lower())}", "timestamp": timestamp}
+    json_string = {"first":  f"{cleanUp(first.lower())}", "second": f"{cleanUp(second.lower())}", "timestamp": timestamp}
     response = jsonify(json_string)
 
     logger.info(f"Returning {json_string}")
