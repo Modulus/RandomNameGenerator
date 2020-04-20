@@ -7,8 +7,8 @@
         Click the large "Generate" button, to generate names
       </p>
       <div class="clicketido">
-        <b-button class="buttons" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
-        <b-button variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
+        <b-button size="lg" class="buttons" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
+        <b-button size="lg" variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
       </div>
 
       <div class="results" v-if="data">
