@@ -135,8 +135,7 @@ export default {
 },
 methods : {
   generateName(type, gender){
-    console.log("Fetching with type: " + type + "and gender: " + gender)
-    console.log(process.env.VUE_APP_SERVICE_URL)
+    console.log("Fetching:" +process.env.VUE_APP_SERVICE_URL + "?type=" +type + "&gender=" + gender)
 
     fetch(process.env.VUE_APP_SERVICE_URL+"?type=" + type+"&gender="+ gender)
       .then(stream => stream.json())
