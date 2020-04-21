@@ -36,3 +36,5 @@ Add cars with male/female buttons for different types of names
 https://bootstrap-vue.js.org/docs/components/card
 
 Find images
+
+320 x 179

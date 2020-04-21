@@ -62,9 +62,9 @@ def generate(version, gender=None):
             return generate_element(first_file="./resources/norwegian_girls.csv", second_file="./resources/norwegian_last.csv")
     elif version == Version.NORSE:
         if gender == Gender.MALE:
-            return generate_element(first_file="./resources/norse_male.csv", second_file="./resources/norwegian_last.csv")
+            return generate_element(first_file="./resources/norse_male.csv", second_file="./resources/norse_male_last.csv")
         else:
-            return generate_element(first_file="./resources/norse_female.csv", second_file="./resources/norwegian_last.csv")
+            return generate_element(first_file="./resources/norse_female.csv", second_file="./resources/norse_female_last.csv")
     elif version == Version.NYNORSK:
         if gender == Gender.MALE:
             first_name_a, first_name_b = generate_element(first_file="./resources/nynorsk/first_female_a.csv", second_file="./resources/nynorsk/first_female_a.csv")

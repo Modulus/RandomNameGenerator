@@ -1,125 +1,118 @@
 <template>
   <div class="container">
-    <div class="jumbotron jumbotron-fluid">
-      <h1 class="header">Name Generator</h1>
-      
-      <p class="subText">
-        Click the large "Generate" button, to generate names
-      </p>
-
-      <div class="clicketido">
-        <b-button size="lg" class="" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
-        <b-button size="lg" variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
-      </div>
-
-      <div class="results" v-if="data">
-          <p class="mainText">
-            {{ data.first | capitalize }} {{ data.second | capitalize}}
-          </p>
-            <p style="display: none;" class="badge badge-dark">{{data.first | makeId}}-{{data.second | makeId }}</p>
-        </div>
-  <div>
-    test
-        <b-button variant="primary" size="lg">Male<font-awesome-icon icon="mars" /></b-button>
-        <b-button variant="danger" size="lg">Female<font-awesome-icon icon="venus" /></b-button>
-<font-awesome-icon icon="user-secret" />
-  </div>
-        <div class="error" v-if="error">
-          Something failed!!!
-        </div>
-
-
+    <h1 class="header">Name Generator</h1>
+    
+    <p class="subText">
+      Click blue or green buttons in categories to generate names. To clear output area click the trash button.
+    </p>
       <!--- Card container -->
       <div class="row">
         <div class="col-sm-3">
           <b-card
-            title="Animal"
-            img-src="../assets/animals.png"
+            header="Animal"
+            footer="301 344 combinations"
+            title=""
             img-alt="Animals"
             img-top
             tag="animals"
             style="max-width: 20rem;"
-            class="mb-2"
-          >
-            <b-card-text>
+            class="mb-2">
+              <b-img alt="Vue logo" src="animals.png" rounded></b-img>
+            <!-- <b-card-text>
             Generate animal names
-            </b-card-text>
-          <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
-          <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+            </b-card-text> -->
+          <b-button class="buttons" variant="primary" size="lg" v-on:click="generateName('animal', 'allgender')"><font-awesome-icon icon="paw"  /></b-button>
           </b-card>
         </div>
         <div class="col-sm-3">
           
             <b-card
-              title="Norwegian"
-              img-src="../assets/animals.png"
+              title=""
               img-alt="Norwegian"
               img-top
               tag="norwegian"
               style="max-width: 20rem;"
               class="mb-2"
+              header="Norwegian"
+              footer="2 716 000 combinations"
             >
-              <b-card-text>
+            <b-img alt="Vue logo" src="norway.png" gluid-grow rounded></b-img>
+              <!-- <b-card-text>
               Generate norwegian names
-              </b-card-text>
-            <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
-            <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+              </b-card-text> -->
+            <b-button variant="primary" size="lg" v-on:click="generateName('norwegian', 'male')"><font-awesome-icon icon="mars" /></b-button> <b-button variant="success" size="lg" v-on:click="generateName('norwegian', 'female')"><font-awesome-icon icon="venus" /></b-button>
             </b-card>
 
         </div>
+
+
+        <!-- img-src="../assets/norse.png" -->
         <div class="col-sm-3">
                   <b-card
-          title="Norse"
-          img-src="../assets/norse.png"
+          title=""
           img-alt="Norse"
           img-top
           tag="norse"
           style="max-width: 20rem;"
           class="mb-2"
+          header="Norse"
+          footer="166 796 combinations"          
         >
-          <b-card-text>
+        <b-img alt="Vue logo" src="norse.png" rounded fluid-grow></b-img>
+          <!-- <b-card-text>
            Generate norse names
-          </b-card-text>
-        <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
-        <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+          </b-card-text> -->
+        <b-button class="buttons" variant="primary" size="lg" v-on:click="generateName('norse', 'male')"><font-awesome-icon icon="mars" /></b-button> <b-button class="buttons" variant="success" size="lg" v-on:click="generateName('norse', 'female')"><font-awesome-icon icon="venus" /></b-button>
         </b-card>
         </div>
+          <!-- img-src="../assets/funny.png" -->
+
         <div class="col-sm-3">
                   <b-card
-          title="Weird"
-          img-src="../assets/funny.png"
+          title=""
           img-alt="Weird"
           img-top
           tag="weird"
           style="max-width: 20rem;"
           class="mb-2"
+          header="Weirdness"
+          footer="Hmmm combinations"          
         >
-          <b-card-text>
+          <b-img alt="Vue logo" src="funny.png" rounded></b-img>
+          <!-- <b-card-text>
            Generate weird names
-          </b-card-text>
-        <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
-        <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+          </b-card-text> -->
+        <b-button class="buttons" variant="primary" size="lg" v-on:click="generateName('nynorsk', 'male')"><font-awesome-icon icon="mars" /></b-button> <b-button class="buttons" variant="success" size="lg" v-on:click="generateName('nynorsk', 'fenmale')"><font-awesome-icon icon="venus" /></b-button>
         </b-card>
         </div>
       </div>
+      <b-row>
+        <b-col></b-col>
+        <b-col></b-col>
+        <b-col><b-button block size="lg" variant="danger" v-on:click="clear()"><font-awesome-icon icon="trash" /></b-button></b-col> 
+        <b-col></b-col>        
+        <b-col></b-col>
+      </b-row>
 
+      <div class="results" v-if="data">
+          <p class="mainText">
+            {{ data.first | capitalize }} {{ data.second | capitalize}}
+          </p>
+            <p v-if="data.first" class="badge badge-dark">{{ makeId(data.first, data.second) }}</p>
+        </div>
 
+        <div class="error" v-if="error">
+          Something failed!!!
+        </div>
 
+      <div v-if="data">
+        <label for="tags-basic">Names this far</label>
+        <b-form-tags input-id="newName" v-model="names" class="mb-2"></b-form-tags>
+      </div>
 
     <!-- LARGE ICONS: https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons-->
     </div>
 
-    <div class="inputs">
-      <h3>Type</h3>
-      TODO
-      <hr/>
-
-      <h3>Gender</h3>
-      TODO
-      <hr />
-    </div>
-
-  </div>
 </template>
 
 <script>
@@ -134,14 +127,18 @@ export default {
         first: " ",
         second: " "
       },
+      names: [],
       type: "norwegian",
       gender: "female",
       error: null
   }
 },
 methods : {
-  generateName(){
-    fetch("http://localhost:5000/?type=" + this.type+"&gender="+ this.gender)
+  generateName(type, gender){
+    console.log("Fetching with type: " + type + "and gender: " + gender)
+    console.log(process.env.VUE_APP_SERVICE_URL)
+
+    fetch(process.env.VUE_APP_SERVICE_URL+"?type=" + type+"&gender="+ gender)
       .then(stream => stream.json())
       .then(data => {
         this.data = {
@@ -151,6 +148,9 @@ methods : {
         }
         this.error = null
         console.log("Created new name at servetime: " + this.data.timestamp)
+        let name = this.capitalize(data.first).concat(" ").concat(this.capitalize(data.second))
+        console.log("Pushing " + name + "to tag list")
+        this.names.push(name)
       })
       .catch(error => {
         console.error(error)
@@ -162,7 +162,19 @@ methods : {
       first: " ",
       second: " "
     }
+    this.names = []
     this.error = null
+  },
+  makeId(first, second){
+    console.log("First: "+ first +", second: " + second)
+    if (!first || !second || first ===" " || second === " " || first.length == 0 || second.length == 0) return ""
+    let value = first.concat(" ").concat(second)
+    return value.split(" ").join("-")
+  },
+  capitalize: function (value) {
+    if (!value) return ""
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
   },
 
 },
@@ -173,7 +185,8 @@ filters: {
     return value.charAt(0).toUpperCase() + value.slice(1)
   },
   makeId: function(value){
-    if (!value) return ""
+    console.log("value is ["+value+"]")
+    if (!value || value === "" || value.length == 0) return ""
     value = value.toString()
     return value.split(" ").join("-")
   }
@@ -202,19 +215,17 @@ a {
   color: #42b983;
 }
 
-.buttons {
-  margin-right: 2em;
+/* .buttons {
+  margin: 2em;
 }
 
-.buttons b-icon {
-  padding-left: 5em;
-}
 
-.buttons b-icon {
+
+.buttons font-awesome-icon {
   padding-left: 5em;
 }
 
 b-button {
   padding-right: 5em;
-}
+} */
 </style>

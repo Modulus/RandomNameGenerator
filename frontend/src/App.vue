@@ -62,7 +62,7 @@ img {
 
 .header {
   color: brown;
-  padding-top: 0.5em;
+  /* padding-top: 0.5em; */
   /* padding-bottom: 1em; */
   font-size: 3em;
 }
