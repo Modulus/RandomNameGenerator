@@ -3,16 +3,26 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
 // Import bootstrap compoments
-import {BootstrapVue, IconsPlugin} from "bootstrap-vue"
+import {BootstrapVue} from "bootstrap-vue"
 
 
 // Import bootstrap css
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret, faMars, faVenus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+
+library.add(faUserSecret)
+library.add(faMars)
+library.add(faVenus)
+
+Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
 Vue.use(VueRouter)
+Vue.component("font-awesome-icon", FontAwesomeIcon)
 
   const routes = [
   {

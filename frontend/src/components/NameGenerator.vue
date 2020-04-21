@@ -6,8 +6,9 @@
       <p class="subText">
         Click the large "Generate" button, to generate names
       </p>
+
       <div class="clicketido">
-        <b-button size="lg" class="buttons" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
+        <b-button size="lg" class="" variant="success" v-on:click="generateName()">Generate&nbsp;<b-icon icon="arrow-repeat"></b-icon></b-button>
         <b-button size="lg" variant="danger" v-on:click="clear()">Clear&nbsp;<b-icon icon="trash"></b-icon></b-button>
       </div>
 
@@ -17,12 +18,95 @@
           </p>
             <p style="display: none;" class="badge badge-dark">{{data.first | makeId}}-{{data.second | makeId }}</p>
         </div>
-
+  <div>
+    test
+        <b-button variant="primary" size="lg">Male<font-awesome-icon icon="mars" /></b-button>
+        <b-button variant="danger" size="lg">Female<font-awesome-icon icon="venus" /></b-button>
+<font-awesome-icon icon="user-secret" />
+  </div>
         <div class="error" v-if="error">
           Something failed!!!
         </div>
 
 
+      <!--- Card container -->
+      <div class="row">
+        <div class="col-sm-3">
+          <b-card
+            title="Animal"
+            img-src="../assets/animals.png"
+            img-alt="Animals"
+            img-top
+            tag="animals"
+            style="max-width: 20rem;"
+            class="mb-2"
+          >
+            <b-card-text>
+            Generate animal names
+            </b-card-text>
+          <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
+          <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+          </b-card>
+        </div>
+        <div class="col-sm-3">
+          
+            <b-card
+              title="Norwegian"
+              img-src="../assets/animals.png"
+              img-alt="Norwegian"
+              img-top
+              tag="norwegian"
+              style="max-width: 20rem;"
+              class="mb-2"
+            >
+              <b-card-text>
+              Generate norwegian names
+              </b-card-text>
+            <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
+            <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+            </b-card>
+
+        </div>
+        <div class="col-sm-3">
+                  <b-card
+          title="Norse"
+          img-src="../assets/norse.png"
+          img-alt="Norse"
+          img-top
+          tag="norse"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+           Generate norse names
+          </b-card-text>
+        <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
+        <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+        </b-card>
+        </div>
+        <div class="col-sm-3">
+                  <b-card
+          title="Weird"
+          img-src="../assets/funny.png"
+          img-alt="Weird"
+          img-top
+          tag="weird"
+          style="max-width: 20rem;"
+          class="mb-2"
+        >
+          <b-card-text>
+           Generate weird names
+          </b-card-text>
+        <b-button class="buttons" variant="primary" size="lg"><font-awesome-icon icon="mars" /></b-button>
+        <b-button class="buttons" variant="success" size="lg"><font-awesome-icon icon="venus" /></b-button>
+        </b-card>
+        </div>
+      </div>
+
+
+
+
+    <!-- LARGE ICONS: https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons-->
     </div>
 
     <div class="inputs">
@@ -124,5 +208,13 @@ a {
 
 .buttons b-icon {
   padding-left: 5em;
+}
+
+.buttons b-icon {
+  padding-left: 5em;
+}
+
+b-button {
+  padding-right: 5em;
 }
 </style>
