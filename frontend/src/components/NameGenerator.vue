@@ -54,7 +54,7 @@
           img-top
           tag="norse"
           style="max-width: 20rem;"
-          class="mb-2"
+          class="mb-2 rounded"
           header="Norse"
           footer="166 796 combinations"          
         >
@@ -74,7 +74,7 @@
           img-top
           tag="weird"
           style="max-width: 20rem;"
-          class="mb-2"
+          class="mb-2 rounded"
           header="Weirdness"
           footer="Hmmm combinations"          
         >
@@ -98,15 +98,15 @@
           <p class="mainText">
             {{ data.first | capitalize }} {{ data.second | capitalize}}
           </p>
-            <p v-if="data.first" class="badge badge-dark">{{ makeId(data.first, data.second) }}</p>
+            <p v-if="data" class="badge badge-dark">{{ makeId(data.first, data.second) }}</p>
         </div>
 
         <div class="error" v-if="error">
           Something failed!!!
         </div>
 
-      <div v-if="data">
-        <label for="tags-basic">Names this far</label>
+      <div>
+        <label for="tags-basic">Names so far</label>
         <b-form-tags input-id="newName" v-model="names" class="mb-2"></b-form-tags>
       </div>
 
@@ -123,10 +123,7 @@ export default {
   },
   data() {
     return {
-      data: {
-        first: " ",
-        second: " "
-      },
+      data: null,
       names: [],
       type: "norwegian",
       gender: "female",
@@ -157,10 +154,7 @@ methods : {
       })
   },
   clear(){
-    this.data = {
-      first: " ",
-      second: " "
-    }
+    this.data = null
     this.names = []
     this.error = null
   },
