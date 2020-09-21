@@ -151,6 +151,30 @@ methods : {
       .catch(error => {
         console.error(error)
         this.error = error
+        console.log("Fallback to localhost")
+        this.generateNameWithUrl("http://localhost:5000", type, gender)
+      })
+  },
+  generateNameWithUrl(url, type, gender){
+    console.log("Fetching:" +url + "?type=" +type + "&gender=" + gender)
+
+    fetch(url+"?type=" + type+"&gender="+ gender)
+      .then(stream => stream.json())
+      .then(data => {
+        this.data = {
+          first: data.first,
+          second: data.second,
+          timestamp: data.timestamp
+        }
+        this.error = null
+        console.log("Created new name at servetime: " + this.data.timestamp)
+        let name = this.capitalize(data.first).concat(" ").concat(this.capitalize(data.second))
+        console.log("Pushing " + name + "to tag list")
+        this.names.push(name)
+      })
+      .catch(error => {
+        console.error(error)
+        this.error = error
       })
   },
   clear(){

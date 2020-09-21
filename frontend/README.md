@@ -37,4 +37,4 @@ https://bootstrap-vue.js.org/docs/components/card
 
 Find images
 
-320 x 179
+320 x 179docker build --build-arg MODE=production -t coderpews/name-genrator-front:2.6 .

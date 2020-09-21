@@ -48,7 +48,7 @@ frontend:
   image:
     replicaCount: 1  
     repository: coderpews/name-generator-front
-    version: 2.5
+    version: 2.8
     pullPolicy: IfNotPresent    
   resources: 
     requests:
