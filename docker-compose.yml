@@ -1,10 +1,13 @@
-version: "3.3"
+version: "3.7"
 services:
   backend:
     build: backend
     ports:
       - "5000:5000"
   frontend:
-    build: frontend
+    build: 
+      context: frontend
+      args:
+        - MODE=development
     ports:
       - "8080:80"
